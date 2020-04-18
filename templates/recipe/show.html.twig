@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section>  
+    <div class="container">
+           <!-- image of recipe or list of image -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="receipe-slider owl-carousel">
+                        <img src="{{ asset('img/core-img/recette-chakchouka.jpg') }}" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- infomation in genral -->
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="receipe-headline my-5">
+                            <h2>{{ recipe.name }}</h2>
+                            <div class="receipe-duration">
+                                <h6>Prep: {{ recipe.preparationTime }}</h6>
+                                <h6>Yields: {{ nbPerson }}</h6>
+                                <h6>Origin: {{ recipe.origine }}</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="receipe-ratings text-right my-5">
+                                 <div class="ratings">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </div>
+                            <a href="#" class="btn delicious-btn">{{ recipe.difficulty }}</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- steps -->
+                <div class="row">
+                      <div class="col-12 col-lg-8">
+                      {% set i =0  %}
+                      {% for step in steps %}
+                          {% set i = i+1 %}
+                        <div class="single-preparation-step d-flex">
+                             <h5>{{ i }}.</h5>
+                             <p>  {{ step }} </p>
+                        </div>
+                       {% endfor %}
+                 </div>
+                 <!-- ingrediant -->
+                 <div class="col-12 col-lg-4">
+                        <div class="ingredients">
+                            <h4>Ingredients</h4>
+                        </div>
+                </div>
+    </div>
+</section>
+<section>
+
+
+
+</section>
+{% endblock %}

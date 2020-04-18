@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<section >
+
+      {% for recipe in recipes %}
+      <article>
+        <h2>{{ recipe.name }}</h2>
+        <div class="metadata"> son origine est  {{ recipe.origine }}</div>
+        <div class="content">
+            {{ recipe.steps }}
+        </div>
+        <a href="{{ path('recipe_show', {id: recipe.id}) }}"  class="btn btn-primary">Lire la suite</a>
+    </article> 
+      {% endfor %}
+</section>
+{% endblock %}
