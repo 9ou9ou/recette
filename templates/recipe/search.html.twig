@@ -1,0 +1,18 @@
+{% extends 'base.html.twig'%}
+{% block body %}
+{% for recipe in recipes %}
+{% set nom=recipe.name %}
+      {%  if(nomRecette|capitalize in nom|capitalize )%}
+      <article>
+        <h2>{{ recipe.name }}</h2>
+        <div class="metadata"> son origine est  {{ recipe.origine }}</div>
+        <div class="content">
+            {{ recipe.steps }}
+        </div>
+        <a href="{{ path('recipe_show', {id: recipe.id}) }}"  class="btn btn-primary">Lire la suite</a>
+       {% set break = true %}
+       {% endif %}
+           {% endfor %}
+    </article> 
+ 
+{% endblock %}
