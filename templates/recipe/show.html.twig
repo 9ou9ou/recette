@@ -1,3 +1,7 @@
+{% block stylesheet %}
+{{parents}}
+    <link href= "https://bootswatch.com/4/united/bootstrap.min.css">
+{% endblock %}
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -6,8 +10,9 @@
            <!-- image of recipe or list of image -->
             <div class="row">
                 <div class="col-12">
-                    <div class="receipe-slider owl-carousel">
-                        <img src="{{ asset('img/core-img/recette-chakchouka.jpg') }}" alt="">
+                    <div class="receipe-slider owl-carousel lightbox">
+                        <img src="{{ asset('img/core-img/recette-chakchouka.jpg') }}" data-alt="" data-lightbox="image-1" data-title="My caption">
+
                     </div>
                 </div>
             </div>
@@ -39,7 +44,8 @@
                 </div>
                 <!-- steps -->
                 <div class="row">
-                      <div class="col-12 col-lg-8">
+                      <div class="col-12 col-lg-8 ingredients">
+                      <h4 >Steps</h4>
                       {% set i =0  %}
                       {% for step in steps %}
                           {% set i = i+1 %}
@@ -53,13 +59,58 @@
                  <div class="col-12 col-lg-4">
                         <div class="ingredients">
                             <h4>Ingredients</h4>
+                            <!-- {% for ingredient in recipe.ingredientRecipes %} <p>     </p>{% endfor %}-->
                         </div>
                 </div>
+                 <!-- Advice -->
+                 {% if   recipe.advice is not empty %}
+                 
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="receipe-headline my-5">
+                            <h2>Advice</h2>
+                            <div class="receipe-duration">
+                                <h6>Prep: {{ recipe.advice }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <section>
+                    {% if recipe.comments | length !=0 %}
+                        <h1> {{ recipe.comments | length }} commentaires </h1> <br>
+                    {% endif %}
+                    
+                         {% for comment in recipe.comments %}
+        
+                              <div class="comment">
+                                <div class="row">
+                              <div class="col-6 col-sm-4 ">
+                                 {{ comment.author }} (<small>{{comment.createdAt | date('d/m/Y à H:i')}}</small>)
+                              </div>
+                              <div class="col-6 col-sm-8 ">
+                              {{ comment.content | raw }}
+                            </div>
+                            </div>
+                            </div>
+                         {% endfor %}
+                   <h1> Add new Comment <h1> </br>
+                   {{ form_start(form) }}
+                            {{form_widget(form)}}
+                            <button class="btn btn-primary"> Submit</button>
+                    {{ form_end(form) }}
+                    </section>
+
+
     </div>
 </section>
-<section>
 
-
-
-</section>
+{% endblock %}
+{% block javascript %}
+     <script>
+                    lightbox.option({
+                         'PositionFromTop': 200,
+                         'wrapAround': true
+                            })
+        </script>
 {% endblock %}

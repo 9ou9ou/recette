@@ -1,17 +1,52 @@
 {% extends "base.html.twig" %}
+{% block head %} 
+<style>
+.container{
+  max-width:1200px;
+}
+.galery{
+  margin:2px;
+  border:1px solid #ccc;
+  float:left;
+  width:290px;
+}
+.galery img{
+  width:100%;
+  height:auto;
+}
+.desc{
+  padding:15px;
+  text-align:center;
+}
+.failed{
+  text-align: center;
+}
+</style>
+{% endblock %}
+
+
 
 {% block body %}
-<section >
 
-      {% for recipe in recipes %}
-      <article>
-        <h2>{{ recipe.name }}</h2>
-        <div class="metadata"> son origine est  {{ recipe.origine }}</div>
-        <div class="content">
-            {{ recipe.steps }}
-        </div>
-        <a href="{{ path('recipe_show', {id: recipe.id}) }}"  class="btn btn-primary">Lire la suite</a>
-    </article> 
-      {% endfor %}
+{% if recipes | length !=0 and recipes is not null%}
+  <section >
+  <div class="container">
+     {% for recipe in recipes %}
+     <div class="galery">
+     <img src="{{ asset('img/core-img/recette-chakchouka.jpg') }}" alt="">
+     <div class="desc">
+ <a href="{{ path('recipe_show', {id: recipe.id}) }}"  >{{recipe.name}}</a>
+</div>
+</div>
+</div>
+    {% endfor %} 
 </section>
+{% else %}
+<div class="failed">
+  <h3>No results found for {{ searched }}</h3>
+  <h6>Try a different search term. </h6>
+</div>
+{% endif %}
+
 {% endblock %}
+

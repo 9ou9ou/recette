@@ -64,13 +64,21 @@ class Recipe
     private $advice;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient", inversedBy="recipes")
+     * @ORM\OneToMany(targetEntity="App\Entity\IngredientRecipe", mappedBy="recipe")
      */
-    private $ingredients;
+    private $ingredientRecipes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="relation")
+     */
+    private $comments;
+
 
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
+        $this->ingredientRecipes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -187,28 +195,65 @@ class Recipe
     }
 
     /**
-     * @return Collection|Ingredient[]
+     * @return Collection|IngredientRecipe[]
      */
-    public function getIngredients(): Collection
+    public function getIngredientRecipes(): Collection
     {
-        return $this->ingredients;
+        return $this->ingredientRecipes;
     }
 
-    public function addIngredient(Ingredient $ingredient): self
+    public function addIngredientRecipe(IngredientRecipe $ingredientRecipe): self
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
+        if (!$this->ingredientRecipes->contains($ingredientRecipe)) {
+            $this->ingredientRecipes[] = $ingredientRecipe;
+            $ingredientRecipe->setRecipe($this);
         }
 
         return $this;
     }
 
-    public function removeIngredient(Ingredient $ingredient): self
+    public function removeIngredientRecipe(IngredientRecipe $ingredientRecipe): self
     {
-        if ($this->ingredients->contains($ingredient)) {
-            $this->ingredients->removeElement($ingredient);
+        if ($this->ingredientRecipes->contains($ingredientRecipe)) {
+            $this->ingredientRecipes->removeElement($ingredientRecipe);
+            // set the owning side to null (unless already changed)
+            if ($ingredientRecipe->getRecipe() === $this) {
+                $ingredientRecipe->setRecipe(null);
+            }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setRelation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getRelation() === $this) {
+                $comment->setRelation(null);
+            }
+        }
+
+        return $this;
+    }
+   
 }

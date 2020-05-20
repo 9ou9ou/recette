@@ -1,11 +1,11 @@
-(function ($) {
+(function($) {
     'use strict';
 
     var browserWindow = $(window);
 
     // :: 1.0 Preloader Active Code
-    browserWindow.on('load', function () {
-        $('#preloader').fadeOut('slow', function () {
+    browserWindow.on('load', function() {
+        $('#preloader').fadeOut('slow', function() {
             $(this).remove();
         });
     });
@@ -25,10 +25,10 @@
 
     // :: 4.0 Search Active Code
     var searchwrapper = $('.search-wrapper');
-    $('.search-btn').on('click', function () {
+    $('.search-btn').on('click', function() {
         searchwrapper.toggleClass('on');
     });
-    $('.close-btn').on('click', function () {
+    $('.close-btn').on('click', function() {
         searchwrapper.removeClass('on');
     });
 
@@ -49,34 +49,34 @@
             smartSpeed: 1000
         });
 
-        welcomeSlide.on('translate.owl.carousel', function () {
+        welcomeSlide.on('translate.owl.carousel', function() {
             var slideLayer = $("[data-animation]");
-            slideLayer.each(function () {
+            slideLayer.each(function() {
                 var anim_name = $(this).data('animation');
                 $(this).removeClass('animated ' + anim_name).css('opacity', '0');
             });
         });
 
-        welcomeSlide.on('translated.owl.carousel', function () {
+        welcomeSlide.on('translated.owl.carousel', function() {
             var slideLayer = welcomeSlide.find('.owl-item.active').find("[data-animation]");
-            slideLayer.each(function () {
+            slideLayer.each(function() {
                 var anim_name = $(this).data('animation');
                 $(this).addClass('animated ' + anim_name).css('opacity', '1');
             });
         });
 
-        $("[data-delay]").each(function () {
+        $("[data-delay]").each(function() {
             var anim_del = $(this).data('delay');
             $(this).css('animation-delay', anim_del);
         });
 
-        $("[data-duration]").each(function () {
+        $("[data-duration]").each(function() {
             var anim_dur = $(this).data('duration');
             $(this).css('animation-duration', anim_dur);
         });
 
         var dot = $('.hero-slides .owl-dot');
-        dot.each(function () {
+        dot.each(function() {
             var index = $(this).index() + 1 + '.';
             if (index < 10) {
                 $(this).html('0').append(index);
@@ -132,7 +132,7 @@
     }
 
     // :: 11.0 prevent default a click
-    $('a[href="#"]').click(function ($) {
+    $('a[href="#"]').click(function($) {
         $.preventDefault()
     });
 

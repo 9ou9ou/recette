@@ -34,13 +34,15 @@ class Ingredient
     private $caloriesPerUnit;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Recipe", mappedBy="ingredients")
+     * @ORM\OneToMany(targetEntity="App\Entity\IngredientRecipe", mappedBy="ingredient")
      */
-    private $recipes;
+    private $ingredientRecipes;
 
+    
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
+        $this->ingredientRecipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,30 +87,34 @@ class Ingredient
     }
 
     /**
-     * @return Collection|Recipe[]
+     * @return Collection|IngredientRecipe[]
      */
-    public function getRecipes(): Collection
+    public function getIngredientRecipes(): Collection
     {
-        return $this->recipes;
+        return $this->ingredientRecipes;
     }
 
-    public function addRecipe(Recipe $recipe): self
+    public function addIngredientRecipe(IngredientRecipe $ingredientRecipe): self
     {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes[] = $recipe;
-            $recipe->addIngredient($this);
+        if (!$this->ingredientRecipes->contains($ingredientRecipe)) {
+            $this->ingredientRecipes[] = $ingredientRecipe;
+            $ingredientRecipe->setIngredient($this);
         }
 
         return $this;
     }
 
-    public function removeRecipe(Recipe $recipe): self
+    public function removeIngredientRecipe(IngredientRecipe $ingredientRecipe): self
     {
-        if ($this->recipes->contains($recipe)) {
-            $this->recipes->removeElement($recipe);
-            $recipe->removeIngredient($this);
+        if ($this->ingredientRecipes->contains($ingredientRecipe)) {
+            $this->ingredientRecipes->removeElement($ingredientRecipe);
+            // set the owning side to null (unless already changed)
+            if ($ingredientRecipe->getIngredient() === $this) {
+                $ingredientRecipe->setIngredient(null);
+            }
         }
 
         return $this;
     }
+
 }

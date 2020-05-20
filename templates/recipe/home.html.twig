@@ -1,4 +1,31 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig'%}
 {% block body %}
-    <h1> to do first page. it's not my resposability.</h1>
+<h1>Recette du jour </h1>
+<div>
+  <img src="{{asset('img/core-img/recette-chakchouka.jpg')}}" style="float:right" width="400" height="400">
+{% set nbr=nombre %}
+      {%  set identif=random(1,nbr) %}
+      {% for recette in recipes %}
+      {% if (recette.id==identif) %}
+       {% set recipe=recette %}
+      
+       
+      <article>
+        <h2>{{ recipe.name }}</h2>
+        <div class="metadata"> son origine est  {{ recipe.origine }}</div>
+        <div class="content">
+            {{ recipe.steps }}
+        </div>
+       {% set break = true %}
+       {% endif %}
+           {% endfor %}
+    </article> 
+     
+
+<video width="600" height="350" poster="image.jpg" controls>
+<source src="video.mp4" type="video/mp4"/>
+<source src="video.webm" type="video/webm"/>
+<source src="video.ogv" type="video/ogg"/>
+</video>
+</div>
 {% endblock %}

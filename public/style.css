@@ -56,6 +56,10 @@ a:focus {
     color: #474747;
 }
 
+div {
+    column-count: auto;
+}
+
 ul,
 ol {
     margin: 0;
@@ -1172,6 +1176,8 @@ textarea:focus {
 }
 
 .quote-area .date-comments .comments {
+    border-collapse: collapse;
+    border: red 2px solid;
     font-size: 12px;
     color: #9b9b9b;
 }

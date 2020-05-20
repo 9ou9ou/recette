@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,4 +48,24 @@ class RecipeRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByName($value)
+    {    
+        return $this->createQueryBuilder('r')
+        ->andWhere('r.name like :val')
+        ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            
+        ;
+    }
+    public function findByOrgine($value)
+    {    
+        return $this->createQueryBuilder('r')
+        ->andWhere('r.origine like :val')
+        ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()           
+        ;
+    }
 }

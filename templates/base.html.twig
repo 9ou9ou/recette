@@ -16,21 +16,31 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="{{ asset('style.css') }}">
-
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <!--Lightbox2-->
+    <link href="node_modules/dist/css/lightbox.css" rel="stylesheet" />
 </head>
+{% block head %}
+    
+{% endblock %}
 
 <body id="{% block body_id %}{% endblock %}">
     <!-- Search Wrapper -->
     <div class="search-wrapper">
         <!-- Close Btn -->
         <div class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></div>
-
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="#" method="post">
-                        <input type="search" name="search" placeholder="Type any keywords...">
+                    <form action="{{path('rechercheNom')}}" method="post">
+                    <select name="search_choice" id="search_choice" class="control-form-sm">
+                    <option value="">--Please choose an option--</option>
+                     <option value="name">Name of recipe</option>
+                      <option value="origin">Origin of recipe</option>
+                     </select>
+                        <input type="search" name="search" placeholder="Type any keywords..." >
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+
                     </form>
                 </div>
             </div>
@@ -128,6 +138,10 @@
     <script src=" {{ asset('js/plugins/plugins.js') }}"></script>
     <!-- Active js -->
     <script src="{{ asset('js/active.js') }}"></script>
+     <!-- lightbox2 -->
+    <script src="{{ asset('node_modules/lightbox2/dist/js/lightbox.js') }}"></script>
+
+
       {% block javascripts %}{% endblock %}
     
 </body>
