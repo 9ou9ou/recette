@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -66,6 +67,21 @@ class RecipeRepository extends ServiceEntityRepository
         ->setParameter('val', '%'.$value.'%')
             ->getQuery()
             ->getResult()           
+        ;
+    }
+
+    public function findByIngredientRecipes($value)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('i.name, u.quantity')
+            ->join('App\Entity\IngredientRecipe','u')
+            ->join('App\Entity\Ingredient','i')
+            ->where('r.name = :value')
+            ->setParameter('value',$value->getName())
+            ->andWhere('r.id = u.recipe')
+            ->andWhere('u.ingredient = i.id')
+            ->getQuery()
+            ->getResult()
         ;
     }
 }

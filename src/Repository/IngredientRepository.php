@@ -47,4 +47,18 @@ class IngredientRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByName($value)
+    {
+        return $this->createQueryBuilder('i')
+            ->select('r')
+            ->join('App\Entity\IngredientRecipe','u')
+            ->join('App\Entity\Recipe','r')
+            ->where('i.name = :value')
+            ->setParameter('value',$value)
+            ->andWhere('r.id = u.recipe')
+            ->andWhere('u.ingredient = i.id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

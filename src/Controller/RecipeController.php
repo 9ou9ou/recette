@@ -43,12 +43,12 @@ class RecipeController extends AbstractController
      * @param Recipe $rec
      * @return void
      */
-    public function show (Recipe $rec, Request $request , EntityManagerInterface $manager)
+    public function show (Recipe $rec, Request $request , EntityManagerInterface $manager, RecipeRepository $repo )
     {     
            // steps reformat
            $steps=explode('\r\n',$rec->getSteps());
            //ingredient handling 
-
+           $ingredients = $repo->findByIngredientRecipes($rec);
            //comments handling
            $com = new Comments();
            $form = $this->createForm(CommentType::class, $com);
@@ -68,25 +68,29 @@ class RecipeController extends AbstractController
              'recipe'=> $rec,
              'nbPerson'=> $rec->getNbPerson(),
              'steps'=> $steps,
-             'form'  => $form->createView()
+             'form'  => $form->createView(),
+             'ingredients' => $ingredients
                     ]);
     }
 
       /**
      * @Route("/rechercheNom", name="rechercheNom")
      */
-    public function rechercheNom( RecipeRepository $repo,  Request $request){
+    public function rechercheNom( RecipeRepository $repoRECIPE,  Request $request, IngredientRepository $repoING){
 
         
         $selected_search = $request->request->get('search');
         $selected_value = $request->request->get('search_choice');
-      //  dd($selected_search);
+       
         if ($selected_value =='name'){
-        $result = $repo->findByName($selected_search);
+        $result = $repoRECIPE->findByName($selected_search);
         }
-        else if($selected_value =='origin'){
-            $result = $repo->findByOrigine($selected_search);
-
+        elseif($selected_value =='origin'){
+            $result = $repoRECIPE->findByOrigine($selected_search);
+        }
+        elseif($selected_value =='ingredient'){
+            $result = $repoING->findByName($selected_search);
+            
         }
         else {
             $result= [];

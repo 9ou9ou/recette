@@ -58,8 +58,15 @@
                  <!-- ingrediant -->
                  <div class="col-12 col-lg-4">
                         <div class="ingredients">
-                            <h4>Ingredients</h4>
-                            <!-- {% for ingredient in recipe.ingredientRecipes %} <p>     </p>{% endfor %}-->
+                            <h4>Ingredients</h4> 
+                            {% for ingredient in ingredients %}
+                              <p>  
+                              {{ingredient.quantity}}
+                              {{ingredient.name}}
+                               </p>
+                            {% endfor %}
+                            
+
                         </div>
                 </div>
                  <!-- Advice -->
