@@ -1,20 +1,20 @@
 ## Installation
 ```
-# On clone le dépot !
+# We clone the code from the remote repository
 git clone https://github.com/9ou9ou/recette.git
 
-# On se déplace dans le dossier
+# We move in the folder recette
 cd recette
 
-# On installe les dépendances !
+# We installe the dependencies !
 composer install
 
-# On créé la base de données:  Verifier votre chaine de connexion.
+# We create the database:  Verify your connexion string (username, password ...) 
 php bin/console doctrine:database:create
 
-# On exécute les migrations
+# We execute the migrations into the DB
 php bin/console doctrine:migrations:migrate
 
-# On lance le serveur
+# We start the server
 php bin/console server:run
 ```
