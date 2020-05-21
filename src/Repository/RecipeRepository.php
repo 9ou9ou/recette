@@ -84,4 +84,19 @@ class RecipeRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function CountCalories($value)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('sum(i.calories)')
+            ->join('App\Entity\IngredientRecipe','u')
+            ->join('App\Entity\Ingredient','i')
+            ->where('r.name = :value')
+            ->setParameter('value',$value->getName())
+            ->andWhere('r.id = u.recipe')
+            ->andWhere('u.ingredient = i.id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

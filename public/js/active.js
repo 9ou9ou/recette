@@ -133,7 +133,19 @@
 
     // :: 11.0 prevent default a click
     $('a[href="#"]').click(function($) {
-        $.preventDefault()
+        $.preventDefault();
     });
+    $('#spescifition').hide();
 
 })(jQuery);
+$(document).ready(function() {
+    $('#search_choice').change(function() {
+        var selection = $(this).val();
+        if (selection == '') {
+            $('#spescifition').hide();
+        } else {
+            $('#spescifition').show();
+        }
+
+    });
+})

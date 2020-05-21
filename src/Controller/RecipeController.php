@@ -8,6 +8,7 @@ use App\Form\CommentType;
 use App\Repository\RecipeRepository;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +50,11 @@ class RecipeController extends AbstractController
            $steps=explode('\r\n',$rec->getSteps());
            //ingredient handling 
            $ingredients = $repo->findByIngredientRecipes($rec);
+
+           //handling Calories
+           $calories = $repo->CountCalories($rec)[0][1];
+
+
            //comments handling
            $com = new Comments();
            $form = $this->createForm(CommentType::class, $com);
@@ -69,7 +75,8 @@ class RecipeController extends AbstractController
              'nbPerson'=> $rec->getNbPerson(),
              'steps'=> $steps,
              'form'  => $form->createView(),
-             'ingredients' => $ingredients
+             'ingredients' => $ingredients,
+             'calories'=> $calories
                     ]);
     }
 

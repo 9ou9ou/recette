@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('style.css') }}">
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
     <!--Lightbox2-->
-    <link href="node_modules/dist/css/lightbox.css" rel="stylesheet" />
+    <link href="node_modules/lightbox2/dist/css/lightbox.css" rel="stylesheet" />
 </head>
 {% block head %}
     
@@ -30,16 +30,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="{{path('rechercheNom')}}" method="post">
+                    <form action="{{path('rechercheNom')}}" method="post" class="select_search">
                     <select name="search_choice" id="search_choice" class="control-form-sm">
                     <option value="">--Please choose an option--</option>
                      <option value="name">Name of recipe</option>
                       <option value="origin">Origin of recipe</option>
                       <option value="ingredient">Ingredient</option>
                      </select>
-                        <input type="search" name="search" placeholder="Type any keywords..." >
+                        <div id="spescifition" >
+                        <input type="search" name="search" placeholder="Type any keywords..."  id="search">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-
+                        </div>
                     </form>
                 </div>
             </div>
