@@ -135,5 +135,20 @@
     $('a[href="#"]').click(function($) {
         $.preventDefault()
     });
-
+    
+    $('#spescifition').hide();
 })(jQuery);
+
+
+  // show the input text when an option is selected
+  $(document).ready(function() {
+    $('#search_choice').change(function() {
+        var selection = $(this).val();
+        if (selection == '') {
+            $('#spescifition').hide();
+        } else {
+            $('#spescifition').show();
+        }
+
+    });
+})
