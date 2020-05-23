@@ -8,21 +8,23 @@ use App\Form\CommentType;
 use App\Repository\RecipeRepository;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use RuntimeException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\RecipeService;
 
 class RecipeController extends AbstractController
 {
+       
+    
     /**
      * @Route("/home", name="home")
      * @Route("/")
      */
-    public function home(RecipeRepository $repo)
-    {
-        $repo=$repo->findAll();
-        $nbr=count($repo);
+    public function home(RecipeService $service)
+    {   
+        $nbr= $service->countElement();
+        $repo = $service ->listRecipe();
         return $this->render('recipe/home.html.twig',[
              'recipes'=> $repo,
              'nombre'=> $nbr
@@ -31,8 +33,8 @@ class RecipeController extends AbstractController
     /**
      * @Route("/recipe", name="recipe")
      */
-    public function ListReceipe(RecipeRepository $repo)
-    {       $repo=$repo->findAll();
+    public function ListReceipe(RecipeService $service)
+    {       $repo=$service->listRecipe();
 
         return $this->render('recipe/list.html.twig',[
              'recipes'=> $repo
@@ -44,8 +46,9 @@ class RecipeController extends AbstractController
      * @param Recipe $rec
      * @return void
      */
-    public function show (Recipe $rec, Request $request , EntityManagerInterface $manager, RecipeRepository $repo )
+    public function show (Recipe $rec, Request $request , EntityManagerInterface $manager, RecipeRepository $repo,RecipeService $service )
     {     
+        
            // steps reformat
            $steps=explode('\r\n',$rec->getSteps());
            //ingredient handling 
@@ -56,19 +59,16 @@ class RecipeController extends AbstractController
 
 
            //comments handling
-           $com = new Comments();
+           $com= new Comments();
            $form = $this->createForm(CommentType::class, $com);
            $form->handleRequest($request);
           
            if ($form->isSubmitted() && $form->isValid()){
-            
-                $com->setCreatedAt(new \DateTime())
-                    ->setRelation($rec);
+               $com= $service->completeComment($rec , $com);
                 $manager->persist($com);
                 $manager->flush();
                 return $this->redirectToRoute('recipe_show',['id'=> $rec->getId()]);
            }
-         
 
         return $this->render('recipe/show.html.twig',[
              'recipe'=> $rec,
@@ -76,7 +76,7 @@ class RecipeController extends AbstractController
              'steps'=> $steps,
              'form'  => $form->createView(),
              'ingredients' => $ingredients,
-             'calories'=> $calories
+             'calories'=> $calories,
                     ]);
     }
 
@@ -85,7 +85,6 @@ class RecipeController extends AbstractController
      */
     public function rechercheNom( RecipeRepository $repoRECIPE,  Request $request, IngredientRepository $repoING){
 
-        
         $selected_search = $request->request->get('search');
         $selected_value = $request->request->get('search_choice');
        
@@ -109,5 +108,11 @@ class RecipeController extends AbstractController
 
 
    }
+   /**
+    * @Route("/search", name="search")
+    */
+    public function search(){
+     return   $this->render('recipe/search.html.twig');
+    }
 
 }

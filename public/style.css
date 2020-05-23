@@ -20,6 +20,17 @@
     padding: 0;
 }
 
+#sortable1 li {
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 120px;
+    background-color: green;
+    border: yellow 2px solid;
+    background-attachment: fixed;
+    background-clip: content-box;
+}
+
 body {
     font-family: "Open Sans", sans-serif;
     font-size: 14px;

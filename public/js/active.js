@@ -136,6 +136,7 @@
         $.preventDefault();
     });
     $('#spescifition').hide();
+    $('.drag').hide();
 
 })(jQuery);
 $(document).ready(function() {
@@ -146,6 +147,14 @@ $(document).ready(function() {
         } else {
             $('#spescifition').show();
         }
-
+        if (selection == 'ingredients') {
+            $('.drag').show();
+        } else {
+            $('.drag').hide();
+        }
+    });
+    $('.item').on('click', function() {
+        $(this).remove();
+        $('input.search').val($(this).text());;
     });
 })

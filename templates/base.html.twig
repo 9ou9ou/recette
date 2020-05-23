@@ -15,8 +15,6 @@
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="{{ asset('style.css') }}">
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
-    <!--Lightbox2-->
-    <link href="node_modules/lightbox2/dist/css/lightbox.css" rel="stylesheet" />
 </head>
 {% block head %}
     
@@ -32,14 +30,23 @@
                 <div class="col-12">
                     <form action="{{path('rechercheNom')}}" method="post" class="select_search">
                     <select name="search_choice" id="search_choice" class="control-form-sm">
-                    <option value="">--Please choose an option--</option>
-                     <option value="name">Name of recipe</option>
+                      <option value="">--Please choose an option--</option>
+                      <option value="name">Name of recipe</option>
                       <option value="origin">Origin of recipe</option>
                       <option value="ingredient">Ingredient</option>
+                      <option value="ingredients">Ingredients</option>
                      </select>
-                        <div id="spescifition" >
-                        <input type="search" name="search" placeholder="Type any keywords..."  id="search">
+                        <div id="spescifition"  >
+                        <input type="search" class="search" name="search" placeholder="Type any keywords..."  id="search">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+
+                        <div class="drag">
+                        <ul>
+                        {% for item in all_ingredient.list %}
+                          <li id="" class="ui-widget-content item"  >{{item.name}}</li>
+                        {% endfor %}
+                        </ul>
                         </div>
                     </form>
                 </div>
@@ -108,8 +115,12 @@
                                     <li><a href="{{ path("recipe") }}">Receipe Post</a></li>
                                     <li><a href="#">Blog Post</a></li>
                                     <li><a href="#">Contact</a></li>
-                                    <li><a href="#">Elements</a></li>
                                     <li><a href="#">About Us</a></li>
+                                    {% if app.user %}
+                                    <li><a href="{{ path("app_logout")}}">LogOut</a></li>
+
+                                    {% endif %}
+                                    
                                 </ul>
 
                                 <!-- Newsletter Form -->
@@ -136,10 +147,9 @@
     <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
     <!-- All Plugins js -->
     <script src=" {{ asset('js/plugins/plugins.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Active js -->
     <script src="{{ asset('js/active.js') }}"></script>
-     <!-- lightbox2 -->
-    <script src="{{ asset('node_modules/lightbox2/dist/js/lightbox.js') }}"></script>
 
 
       {% block javascripts %}{% endblock %}
