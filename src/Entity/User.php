@@ -32,6 +32,11 @@ class User  implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $reset_token;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class User  implements UserInterface
     public function eraseCredentials()
     {
         
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+
+        return $this;
     }
 
 }
