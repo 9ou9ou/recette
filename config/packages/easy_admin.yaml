@@ -1,0 +1,83 @@
+easy_admin:
+    site_name:
+        'Wakeleni'
+    user: 
+        display_name: true
+        display_avatar: false
+    design:
+         form_theme:
+            - "@EasyAdmin/form/bootstrap_4.html.twig"
+            - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
+         menu:
+            - { label: 'Recipe' }
+            - { entity: 'Recipe', label: 'Recipe', icon: 'fas fa-receipt' }
+            - { entity: 'Ingredient', label: 'Ingredients', icon: 'fas fa-cutlery' }
+            - { label: 'Utilisateurs' }
+            - { entity: 'User', label: 'Utilisateurs', icon: 'user' }
+            - { label: 'Comments' }
+            - { entity: 'Comments', label: 'Comments', icon: 'comment' }
+    formats:
+        datetime: 'd/m/Y à H:i'       
+         
+
+    entities:
+        Recipe:
+            class:  App\Entity\Recipe
+            list:
+                actions:
+                   - { name: "edit", icon: 'pencil-alt', label: false, css_class: 'btn btn-secondary'}
+                   - { name: "delete", icon: 'trash', label: false, css_class: 'btn btn-danger'}
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'origine' }
+                    - { property: 'nb_person' }
+                    - { property: 'preparationTime' }
+                    - { property: 'difficulty' }
+                    - { property: 'note' }
+                    - { property: 'steps' }
+                    - { property: 'advice' }
+        
+
+        Ingredient:
+            class:  App\Entity\Ingredient
+
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'calories' }
+                    - { property: 'caloriesPerUnit' }
+            list:
+                actions:
+                   - { name: "edit", icon: 'pencil-alt', label: false, css_class: 'btn btn-secondary'}
+                   - { name: "delete", icon: 'trash', label: false, css_class: 'btn btn-danger'}
+                    
+                fields:
+                    - { property: 'name' }
+                    - { property: 'calories' }
+                    - { property: 'caloriesPerUnit' }
+
+        Comments:
+            class:  App\Entity\Comments
+            list:
+                actions:
+                 - { name: "-edit"}
+                 - { name: "delete", icon: 'remove', label: false, css_class: 'btn btn-danger'}
+              
+                title: "Most recent comments"
+                fields:
+                    - { property: 'author' }
+                    - { property: 'content' }
+                    - { property: 'createdAt' }
+            search:
+                fields: ['author']
+              
+        User:
+            class: App\Entity\User
+            name_property_path: 'username'
+            list:
+                actions:
+                - { name: "edit", icon: 'pencil-alt', label: false, css_class: 'btn btn-secondary'}
+                - { name: "delete", icon: 'trash', label: false, css_class: 'btn btn-danger'}
+                - { name: "new"}
+         

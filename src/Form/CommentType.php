@@ -24,7 +24,8 @@ class CommentType extends AbstractType
                 'attr'=> [
                     'placeholder'=> "Put your coment here"
                 ]
-            ]);
+            ])
+            ->add('submit', ButtonType::class);
                     
         
     }

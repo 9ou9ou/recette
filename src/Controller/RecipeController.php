@@ -60,9 +60,12 @@ class RecipeController extends AbstractController
 
            //comments handling
            $com= new Comments();
+           if ($this->getUser()){
+              $com->setAuthor($this->getUser()->getUsername());
+           }
+           
            $form = $this->createForm(CommentType::class, $com);
            $form->handleRequest($request);
-          
            if ($form->isSubmitted() && $form->isValid()){
                $com= $service->completeComment($rec , $com);
                 $manager->persist($com);
