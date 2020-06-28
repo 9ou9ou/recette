@@ -15,6 +15,6 @@ symfony console doctrine:database:create
 # We execute the migrations into the DB
 symfony console doctrine:migrations:migrate
 
-# We start the server
-symfony console server:run
+# We start the server in background
+symfony serve -d
 ```
