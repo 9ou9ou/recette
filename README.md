@@ -10,11 +10,11 @@ cd recette
 composer install
 
 # We create the database:  Verify your connexion string (username, password ...) 
-php bin/console doctrine:database:create
+symfony console doctrine:database:create
 
 # We execute the migrations into the DB
-php bin/console doctrine:migrations:migrate
+symfony console doctrine:migrations:migrate
 
-# We start the server
-php bin/console server:run
+# We start the server in background
+symfony serve -d
 ```
