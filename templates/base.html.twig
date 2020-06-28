@@ -8,13 +8,13 @@
 
     <!-- Title -->
     <title>{% block title %} Delicious - Food Blog {% endblock %}</title>
-     {% block stylesheets %} {% endblock %}             
+     {% block stylesheets %} {% endblock %}
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('img/core-img/favicon.ico') }}">
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="{{ asset('style.css') }}">
-    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
 </head>
 {% block head %}
     
@@ -112,13 +112,15 @@
                             <div class="classynav">
                                 <ul>
                                     <li><a href="{{ path("home") }}">Home</a></li>
-                                    <li><a href="{{ path("recipe") }}">Receipe Post</a></li>
-                                    <li><a href="#">Blog Post</a></li>
+                                    <li><a href="{{ path("recipe") }}">Recipe Post</a></li>
                                     <li><a href="{{ path("contact") }}">Contact</a></li>
                                     <li><a href="#">About Us</a></li>
                                     {% if app.user %}
-                                    <li><a href="{{ path("app_logout")}}">LogOut</a></li>
+                                        <li><a href="{{ absolute_url('/admin')}}">AdminDashboard</a></li>
+                                        <li><a href="{{ path("app_logout")}}">LogOut</a></li>
 
+                                    {% else %}
+                                        <li><a href="{{ path("app_login")}}">LogIn</a></li>
                                     {% endif %}
                                     
                                 </ul>
@@ -144,13 +146,12 @@
     <!-- jQuery-2.2.4 js -->
     <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
     <!-- Bootstrap js -->
-    <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <!-- All Plugins js -->
     <script src=" {{ asset('js/plugins/plugins.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Active js -->
     <script src="{{ asset('js/active.js') }}"></script>
-
 
       {% block javascripts %}{% endblock %}
     

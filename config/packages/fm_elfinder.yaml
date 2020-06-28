@@ -1,0 +1,10 @@
+fm_elfinder:
+    instances:
+        default:
+            connector:
+                roots:
+                    uploads:
+                        driver: LocalFileSystem
+                        path: uploads
+                        upload_allow: ['all']
+                        upload_max_size: 5M

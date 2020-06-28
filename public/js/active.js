@@ -157,4 +157,4 @@ $(document).ready(function() {
         $(this).remove();
         $('input.search').val($(this).text());;
     });
-})
+});

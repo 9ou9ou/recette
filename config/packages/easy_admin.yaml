@@ -4,6 +4,7 @@ easy_admin:
     user: 
         display_name: true
         display_avatar: false
+        name_property_path: 'username'
     design:
          form_theme:
             - "@EasyAdmin/form/bootstrap_4.html.twig"
@@ -12,8 +13,8 @@ easy_admin:
             - { label: 'Recipe' }
             - { entity: 'Recipe', label: 'Recipe', icon: 'fas fa-receipt' }
             - { entity: 'Ingredient', label: 'Ingredients', icon: 'fas fa-cutlery' }
-            - { label: 'Utilisateurs' }
-            - { entity: 'User', label: 'Utilisateurs', icon: 'user' }
+            - { label: 'Users' }
+            - { entity: 'User', label: 'User', icon: 'user' }
             - { label: 'Comments' }
             - { entity: 'Comments', label: 'Comments', icon: 'comment' }
     formats:
@@ -24,9 +25,21 @@ easy_admin:
         Recipe:
             class:  App\Entity\Recipe
             list:
+                fields:
+                   - { property: 'name' }
+                   - { property: 'origine' }
+                   - { property: 'nb_person' }
+                   - { property: 'preparationTime' }
+                   - { property: 'difficulty' }
+                   - { property: 'note' }
+                   - { property: 'steps' }
+                   - { property: 'advice' }
+                   - { property: 'image', type: 'image', base_path: '%app.path.website_images%' }
                 actions:
                    - { name: "edit", icon: 'pencil-alt', label: false, css_class: 'btn btn-secondary'}
                    - { name: "delete", icon: 'trash', label: false, css_class: 'btn btn-danger'}
+                filters: ['name', 'origine','nb_person','difficulty','preparationTime']
+
             form:
                 fields:
                     - { property: 'name' }
@@ -37,7 +50,8 @@ easy_admin:
                     - { property: 'note' }
                     - { property: 'steps' }
                     - { property: 'advice' }
-        
+                    - { property: 'imageFile', type: 'file' }
+
 
         Ingredient:
             class:  App\Entity\Ingredient
@@ -56,6 +70,10 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'calories' }
                     - { property: 'caloriesPerUnit' }
+                filters: ['name', 'calories']
+                max_results: 10
+
+
 
         Comments:
             class:  App\Entity\Comments
@@ -63,12 +81,14 @@ easy_admin:
                 actions:
                  - { name: "-edit"}
                  - { name: "delete", icon: 'remove', label: false, css_class: 'btn btn-danger'}
-              
+                help: 'The comment related to each recipe'
                 title: "Most recent comments"
                 fields:
                     - { property: 'author' }
                     - { property: 'content' }
                     - { property: 'createdAt' }
+                    - { property: 'relation', label: 'Recipe' }
+                filters: ['author']
             search:
                 fields: ['author']
               

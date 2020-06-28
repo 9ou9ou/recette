@@ -30,7 +30,6 @@ class RecipeService{
     }
 
     public function completeComment(Recipe $rec, Comments $com){
-
         return  $com->setCreatedAt(new \DateTime())
                     ->setRelation($rec);
     }

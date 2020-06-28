@@ -1,128 +1,123 @@
 {% block stylesheet %}
-{{parents}}
-    <link href= "https://bootswatch.com/4/united/bootstrap.min.css">
+    <style>
+        .wrapper{
+            margin: 100px 100px;
+            position: absolute;
+            padding: 100px 100px 0 0 ;
+        }
+    </style>
 {% endblock %}
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<section>  
-    <div class="container">
-           <!-- image of recipe or list of image -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="receipe-slider owl-carousel lightbox">
-                        <img src="{{ asset('img/core-img/recette-chakchouka.jpg') }}" data-alt="" data-lightbox="image-1" data-title="My caption">
+<div class="container">
+    <!-- image of recipe or list of image -->
+    <div class="row">
+        <div class="col-12">
+            <div class="receipe-slider owl-carousel lightbox">
+                <img src="{{ asset('./uploads/images/recipes/') }}{{ recipe.image }}" data-alt="" data-lightbox="image-1" data-title="My caption">
+            </div>
+        </div>
+    </div>
+    <!-- information in general -->
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="receipe-headline my-5">
+                <h2>{{ recipe.name }}</h2>
+                <div class="receipe-duration">
+                    <h6>Prep: {{ recipe.preparationTime }}</h6>
+                    <h6>Yields: {{ nbPerson }}</h6>
+                    <h6>Origin: {{ recipe.origine }}</h6>
+                    <h6>Calories: {{ calories }} Kcalories</h6>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-12 col-md-4" >
+            <div class="receipe-ratings text-right my-5" id="container">
+                <div class="ratings">
+                    <li class="fa fa-star fa-fw" aria-hidden="true"></li>
+                    <li class="fa fa-star fa-fw" aria-hidden="true"></li>
+                    <li class="fa fa-star fa-fw" aria-hidden="true"></li>
+                    <li class="fa fa-star fa-fw" aria-hidden="true"></li>
+                    <li class="fa fa-star fa-fw" aria-hidden="true"></li>
+                </div>
+                <a href="#" class="btn delicious-btn">{{ recipe.difficulty }}</a>
+            </div>
+        </div>
+    </div>
+    <!-- steps -->
+    <div class="row">
+        <div class="col-12 col-lg-8 ingredients">
+            <h4 >Steps</h4>
+            {% set i =0  %}
+            {% for step in steps %}
+                {% set i = i+1 %}
+                <div class="single-preparation-step d-flex">
+                    <h5>{{ i }}.</h5>
+                    <p>  {{ step }} </p>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- ingrediant -->
+        <div class="col-12 col-lg-4">
+            <div class="ingredients">
+                <h4>Ingredients</h4>
+                {% for ingredient in ingredients %}
+                    <p>
+                        {{ingredient.quantity}}
+                        {{ingredient.name}}
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Advice -->
+        {% if   recipe.advice is not empty %}
+
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <div class="receipe-headline my-5">
+                    <h2>Advice</h2>
+                    <div class="receipe-duration">
+                        <h6>Prep: {{ recipe.advice }}</h6>
                     </div>
                 </div>
             </div>
-            <!-- infomation in genral -->
-                <div class="row">
-                    <div class="col-12 col-md-8">
-                        <div class="receipe-headline my-5">
-                            <h2>{{ recipe.name }}</h2>
-                            <div class="receipe-duration">
-                                <h6>Prep: {{ recipe.preparationTime }}</h6>
-                                <h6>Yields: {{ nbPerson }}</h6>
-                                <h6>Origin: {{ recipe.origine }}</h6>
-                                <h6>Calories: {{ calories }} Kcalories</h6>
+            {% endif %}
+
+            <section>
+                {% if recipe.comments | length !=0 %}
+                    <h1> {{ recipe.comments | length }} comments </h1> <br>
+                {% endif %}
+                {% for comment in recipe.comments %}
+                    <div class="comment">
+                        <div class="row">
+                            <div class="col-12 col-sm-4  ">
+                                <div   >
+                                <span class="justify-content-center" style="font-family: 'Comic Sans MS'; font-size: 20px; font-weight: bold; color: #1abc9c">{{ comment.author }} (<small>{{comment.createdAt | date('d/m/Y à H:i')}}</small>) </span><br>
+                                <span > {{ comment.content | raw }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                {% endfor %}
 
-                    <div class="col-12 col-md-4">
-                        <div class="receipe-ratings text-right my-5">
-                                 <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <a href="#" class="btn delicious-btn">{{ recipe.difficulty }}</a>
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Add a new Comment</h1>
+                            {{ form_start(form) }}
+                            {{ form_row(form.author) }}
+                            {{ form_row(form.content) }}
+                            {{ form_row(form.submit) }}
+                            {{ form_end(form) }}
                         </div>
                     </div>
-                </div>
-                <!-- steps -->
-                <div class="row">
-                      <div class="col-12 col-lg-8 ingredients">
-                      <h4 >Steps</h4>
-                      {% set i =0  %}
-                      {% for step in steps %}
-                          {% set i = i+1 %}
-                        <div class="single-preparation-step d-flex">
-                             <h5>{{ i }}.</h5>
-                             <p>  {{ step }} </p>
-                        </div>
-                       {% endfor %}
-                 </div>
-                 <!-- ingrediant -->
-                 <div class="col-12 col-lg-4">
-                        <div class="ingredients">
-                            <h4>Ingredients</h4> 
-                            {% for ingredient in ingredients %}
-                              <p>  
-                              {{ingredient.quantity}}
-                              {{ingredient.name}}
-                               </p>
-                              
-                            {% endfor %}
-                            
-
-                        </div>
-                </div>
-                 <!-- Advice -->
-                 {% if   recipe.advice is not empty %}
-                 
-                <div class="row">
-                    <div class="col-12 col-md-8">
-                        <div class="receipe-headline my-5">
-                            <h2>Advice</h2>
-                            <div class="receipe-duration">
-                                <h6>Prep: {{ recipe.advice }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    
-                    <section>
-                    {% if recipe.comments | length !=0 %}
-                        <h1> {{ recipe.comments | length }} commentaires </h1> <br>
-                    {% endif %}
-                    
-                         {% for comment in recipe.comments %}
-        
-                              <div class="comment">
-                                <div class="row">
-                              <div class="col-6 col-sm-4 ">
-                                 {{ comment.author }} (<small>{{comment.createdAt | date('d/m/Y à H:i')}}</small>)
-                              </div>
-                              <div class="col-6 col-sm-8 ">
-                              {{ comment.content | raw }}
-                            </div>
-                            </div>
-                            </div>
-                         {% endfor %}
-                         
-                   <h1> Add new Comment <h1> </br> 
-                           {{form_start(form)}}
-                            {% if not app.user %}
-                            {{form_row(form.author)}}
-                            {% endif %}
-                            {{form_row(form.content)}}
-
-                            {{form_end(form)}}
-                    </section>
-
-
+            </section>
+        </div>
     </div>
-</section>
-{% endblock %}
+</div>
+        {% endblock %}
 {% block javascript %}
-     <script>
-                    lightbox.option({
-                         'PositionFromTop': 200,
-                         'wrapAround': true
-                            })
-        </script>
+            {{parents}}
+             <style src="{{asset('/js/app.js')}}"></style>
 {% endblock %}

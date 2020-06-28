@@ -1,7 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Contact{% endblock %}
-
+{% block stylesheets %}
+    <style>
+       .required{
+          font-family: "Comic Sans MS";
+           font-size: 20px;
+           padding-right: 30px;
+           font-weight: bold;
+       }
+        .form{
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+        .button{
+            padding-left: 450px;
+            padding-top: 20px;
+        }
+        button{
+            background-color: #2b569a;
+            border-radius: 30px ;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block ;
+            font-size: 16px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
 {% for message in app.flashes('message') %}
     <div class="alert alert-success " role="alert">
@@ -10,8 +37,20 @@
 {% endfor %}
 
 <h1>ContactForm</h1>
-{{form_start(contactForm)}}
-{{form_widget(contactForm)}}
-{{form_end(contactForm)}}
+    <div class="row">
+        <div class="col-12 ">
+            <div class="justify-content-center form-group">
+            {{form_start(contactForm, {'method': 'POST'})}}
+            {{form_row(contactForm.name , {'attr': {'class': ' form-control'}})}}
+            {{form_row(contactForm.email, {'attr': {'class': ' form-control'}})}}
+            {{form_row(contactForm.message, {'attr': {'class': ' form'}})}}
+                <div class="button">
+            {{form_row(contactForm.sendMessage)}}
+                </div>
+            {{form_end(contactForm)}}
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}

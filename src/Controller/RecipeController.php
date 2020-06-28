@@ -8,6 +8,9 @@ use App\Form\CommentType;
 use App\Repository\RecipeRepository;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +18,13 @@ use App\Service\RecipeService;
 
 class RecipeController extends AbstractController
 {
-       
-    
+
+
     /**
      * @Route("/home", name="home")
      * @Route("/")
+     * @param RecipeService $service
+     * @return Response
      */
     public function home(RecipeService $service)
     {   
@@ -32,6 +37,8 @@ class RecipeController extends AbstractController
 
     /**
      * @Route("/recipe", name="recipe")
+     * @param RecipeService $service
+     * @return Response
      */
     public function ListReceipe(RecipeService $service)
     {       $repo=$service->listRecipe();
@@ -40,11 +47,17 @@ class RecipeController extends AbstractController
              'recipes'=> $repo
         ]);
     }
+
     /**
      * @Route("/recipe/{id}", name="recipe_show")
-     * show a receipe in details.
+     * show a recipe in details.
      * @param Recipe $rec
-     * @return void
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param RecipeRepository $repo
+     * @param RecipeService $service
+     * @return RedirectResponse|Response
+     * @throws Exception
      */
     public function show (Recipe $rec, Request $request , EntityManagerInterface $manager, RecipeRepository $repo,RecipeService $service )
     {     
@@ -64,10 +77,13 @@ class RecipeController extends AbstractController
               $com->setAuthor($this->getUser()->getUsername());
            }
            
-           $form = $this->createForm(CommentType::class, $com);
+           $form = $this->createForm(CommentType::class);
            $form->handleRequest($request);
+
            if ($form->isSubmitted() && $form->isValid()){
-               $com= $service->completeComment($rec , $com);
+               $com->setCreatedAt(new \DateTime())
+                   ->setRelation($rec);
+                 dd($com);
                 $manager->persist($com);
                 $manager->flush();
                 return $this->redirectToRoute('recipe_show',['id'=> $rec->getId()]);
@@ -83,8 +99,12 @@ class RecipeController extends AbstractController
                     ]);
     }
 
-      /**
+    /**
      * @Route("/rechercheNom", name="rechercheNom")
+     * @param RecipeRepository $repoRECIPE
+     * @param Request $request
+     * @param IngredientRepository $repoING
+     * @return Response
      */
     public function rechercheNom( RecipeRepository $repoRECIPE,  Request $request, IngredientRepository $repoING){
 

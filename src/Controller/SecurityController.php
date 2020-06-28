@@ -6,6 +6,7 @@ use App\Form\ResetPassType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -18,8 +19,10 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * 
+     *
      * @Route("/login", name="app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -44,11 +47,16 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-      /**
-       * The function make sure to send a email if the user clicked forgotPassword
-       * @Route("/forgotPassword", name="app_forgotten_password")
-       */
-    public function forgotPassword (Request $request, UserRepository $users, \Swift_Mailer $mailer, 
+    /**
+     * The function make sure to send a email if the user clicked forgotPassword
+     * @Route("/forgotPassword", name="app_forgotten_password")
+     * @param Request $request
+     * @param UserRepository $users
+     * @param \Swift_Mailer $mailer
+     * @param TokenGeneratorInterface $tokenGenerator
+     * @return Response
+     */
+    public function forgotPassword (Request $request, UserRepository $users, \Swift_Mailer $mailer,
                                     TokenGeneratorInterface $tokenGenerator): Response {
 
          $form = $this->createForm(ResetPassType::class);
@@ -64,7 +72,7 @@ class SecurityController extends AbstractController
             $this->addFlash('danger', 'This mail adress is unknown');
             return $this->redirectToRoute('app_login');
         }
-          // Generate a token form initialition of the password
+          // Generate a token form initialisation of the password
            $token = $tokenGenerator->generateToken();
 
         try{
@@ -79,7 +87,6 @@ class SecurityController extends AbstractController
 
         // Generate the URL for the reset of password
         $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
-
         //handle the mail
         $message = (new \Swift_Message('Mot de passe oublié'))
             ->setFrom('koussayjebari2070@gmail.com')
@@ -100,10 +107,15 @@ class SecurityController extends AbstractController
         ]);
 }
 
-     /**
-      * the function handle the Password reseting
+    /**
+     * the function handle the Password resetting
      * @Route("/reset_pass/{token}", name="app_reset_password")
-      */
+     * @param Request $request
+     * @param string $token
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserRepository $userRepo
+     * @return RedirectResponse|Response
+     */
      public function resetPassword(Request $request, string $token, 
                                    UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo) {
         // We are looking for a user with the given token

@@ -4,5 +4,6 @@ twig:
     strict_variables: '%kernel.debug%'
     exception_controller: null
     form_themes: ['base.html.twig']
+
     globals: 
            all_ingredient: '@App\Service\IngredientService'

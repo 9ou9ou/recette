@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use DateTime;
 use App\Entity\Comments;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,14 +20,8 @@ class CommentType extends AbstractType
             'attr'=> [
                 'placeholder'=> "Put your name here"
             ]])
-            ->add('content', TextareaType:: class, [
-                'attr'=> [
-                    'placeholder'=> "Put your coment here"
-                ]
-            ])
+            ->add('content', CKEditorType::class)
             ->add('submit', ButtonType::class);
-                    
-        
     }
 
     public function configureOptions(OptionsResolver $resolver)
