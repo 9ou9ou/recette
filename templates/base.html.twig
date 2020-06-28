@@ -34,19 +34,10 @@
                       <option value="name">Name of recipe</option>
                       <option value="origin">Origin of recipe</option>
                       <option value="ingredient">Ingredient</option>
-                      <option value="ingredients">Ingredients</option>
                      </select>
                         <div id="spescifition"  >
                         <input type="search" class="search" name="search" placeholder="Type any keywords..."  id="search">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </div>
-
-                        <div class="drag">
-                        <ul>
-                        {% for item in all_ingredient.list %}
-                          <li id="" class="ui-widget-content item"  >{{item.name}}</li>
-                        {% endfor %}
-                        </ul>
                         </div>
                     </form>
                 </div>
