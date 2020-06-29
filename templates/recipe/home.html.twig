@@ -3,17 +3,17 @@
 {% block body %}
 <h1>Recette du jour </h1>
 <div>
-  <img src="{{asset('img/core-img/recette-chakchouka.jpg')}}" style="float:right" width="400" height="400">
 {% set nbr=nombre %}
       {%  set identif=random(1,nbr) %}
       {% for recette in recipes %}
       {% if (recette.id==identif) %}
        {% set recipe=recette %}
-      
-       
-      <article>
+<img src="{{ asset('./uploads/images/recipes/') }}{{ recipe.image }}" style="float:right" width="400" height="400">
+
+
+    <article>
         <h2>{{ recipe.name }}</h2>
-        <div class="metadata"> son origine est  {{ recipe.origine }}</div>
+        <div class="metadata"> Son origine est  {{ recipe.origine }}</div>
         <div class="content">
             {{ recipe.steps }}
         </div>
